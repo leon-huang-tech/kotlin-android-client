@@ -10,9 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.demo.springclient.api.ApiClient
 import com.demo.springclient.api.TokenManager
 import com.demo.springclient.model.Order
@@ -43,7 +45,7 @@ fun OrdersScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Order List", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            Text("Order List", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0x88FF5722))
             Button(onClick = { navController.navigate("users") }) {
                 Text("View Users")
             }
@@ -80,4 +82,10 @@ fun OrdersScreen(navController: NavController) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OrdersScreenPreview() {
+    OrdersScreen(rememberNavController())
 }

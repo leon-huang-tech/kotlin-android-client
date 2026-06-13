@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.demo.springclient.ui.LoginScreen
 import com.demo.springclient.ui.OrdersScreen
 import com.demo.springclient.ui.UsersScreen
-
+import com.demo.springclient.ui.ChatScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,5 +27,6 @@ fun AppNavigation() {
         composable("login") { LoginScreen(navController) }
         composable("users") { UsersScreen(navController) }
         composable("orders") { OrdersScreen(navController) }
+        composable("chat") { ChatScreen(navController) }
     }
 }

@@ -7,11 +7,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.demo.springclient.api.ApiClient
 import com.demo.springclient.api.TokenManager
 import com.demo.springclient.model.User
@@ -42,9 +45,14 @@ fun UsersScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("User List", fontSize = 22.sp, fontWeight = FontWeight.Bold)
-            Button(onClick = { navController.navigate("orders") }) {
-                Text("View Orders")
+            Text("User List", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0x88FF5722))
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = { navController.navigate("orders") }) {
+                    Text("Orders")
+                }
+                Button(onClick = { navController.navigate("chat") }) {
+                    Text("AI Chat")
+                }
             }
         }
 
@@ -71,4 +79,10 @@ fun UsersScreen(navController: NavController) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun UsersScreenPreview() {
+    UsersScreen(rememberNavController())
 }

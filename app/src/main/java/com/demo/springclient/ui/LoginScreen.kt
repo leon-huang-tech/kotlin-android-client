@@ -10,9 +10,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.demo.springclient.api.ApiClient
 import com.demo.springclient.api.TokenManager
 import com.demo.springclient.model.LoginRequest
@@ -100,4 +104,11 @@ fun LoginScreen(navController: NavController) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview(
+) {
+    LoginScreen(rememberNavController())
 }
