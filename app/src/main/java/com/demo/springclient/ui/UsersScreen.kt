@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.demo.springclient.Screen
 import com.demo.springclient.api.ApiClient
 import com.demo.springclient.api.TokenManager
 import com.demo.springclient.model.User
@@ -46,14 +47,6 @@ fun UsersScreen(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("User List", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0x88FF5722))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { navController.navigate("orders") }) {
-                    Text("Orders")
-                }
-                Button(onClick = { navController.navigate("chat") }) {
-                    Text("AI Chat")
-                }
-            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.demo.springclient.Screen
 import com.demo.springclient.api.ApiClient
 import com.demo.springclient.api.TokenManager
 import com.demo.springclient.model.LoginRequest
@@ -85,8 +86,8 @@ fun LoginScreen(navController: NavController) {
                                 )
                                 val token = response["token"] ?: ""
                                 TokenManager.saveToken(context, token)
-                                navController.navigate("users") {
-                                    popUpTo("login") { inclusive = true }
+                                navController.navigate(Screen.Home.route) {
+                                    popUpTo(Screen.Login.route) { inclusive = true }
                                 }
                             } catch (e: Exception) {
 //                                error = "Invalid email or password"

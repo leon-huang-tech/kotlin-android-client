@@ -1,41 +1,63 @@
 # Kotlin Android Client
 
-An Android client app built with Kotlin and Jetpack Compose, 
+An Android client app built with Kotlin and Jetpack Compose,
 consuming the Spring Boot microservice API with AI chat support.
 
 ## Features
 
 - JWT authentication (login with email and password)
+- Bottom tab navigation (Home / Users / Orders / AI Chat)
 - User list screen
 - Order list screen
-- AI chat screen with streaming responses
-- Navigation between screens
-- Logout support
+- AI chat screen with real-time streaming responses (SSE)
+- Tab state saving and restoration when switching screens
 
 ## Tech Stack
 
 - **Kotlin**
 - **Jetpack Compose** — Modern declarative UI
-- **Navigation Compose** — Screen navigation
+- **Navigation Compose** — Bottom tab navigation with `NavigationBar` (Material3)
 - **Retrofit + OkHttp** — HTTP client with timeout configuration
 - **Coroutines** — Async operations
 - **Material3** — UI components
 
 ## Screens
 
-| Screen | Description |
-|--------|-------------|
-| Login | Email and password login, JWT token stored locally |
-| User List | Displays all users fetched from API |
-| Order List | Displays all orders with color-coded status |
-| AI Chat | Streaming AI assistant powered by Ollama via Spring AI |
+| Screen   | Description                                               |
+|----------|-----------------------------------------------------------|
+| Login    | Email and password login, JWT token stored locally        |
+| Home     | App home screen                                           |
+| Users    | Displays all users fetched from API                       |
+| Orders   | Displays all orders with color-coded status               |
+| AI Chat  | Streaming AI assistant powered by Ollama via Spring AI    |
+
+## Navigation
+
+Uses `Scaffold` + `NavigationBar` (Material3) for bottom tab navigation.
+
+Key navigation strategy in `MainActivity.kt`:
+
+```kotlin
+navController.navigate(screen.route) {
+    popUpTo(navController.graph.findStartDestination().id) {
+        saveState = true   // save scroll position and input state
+    }
+    launchSingleTop = true  // avoid duplicate instances on repeated tap
+    restoreState = true     // restore state when re-selecting a tab
+}
+```
+
+- `popUpTo + saveState` — prevents back stack buildup across tabs
+- `launchSingleTop` — avoids duplicate screen instances on rapid taps
+- `restoreState` — restores scroll position and state when re-selecting a tab
 
 ## AI Chat
 
-The AI chat screen connects to the Spring AI service and supports:
-- Real-time streaming responses
-- Session-based conversation memory
-- Queries about real order and user data via RAG
+Connects to the Spring AI service and supports:
+
+- Real-time streaming responses (SSE via `BufferedReader`)
+- Session-based conversation memory (`android_session_<timestamp>`)
+- Queries about real order and user data via Function Calling (RAG)
 
 ## Status Colors
 
@@ -46,33 +68,45 @@ The AI chat screen connects to the Spring AI service and supports:
 ## Getting Started
 
 ### Prerequisites
+
 - Android Studio
 - Android device or emulator (API 26+)
-- [spring-microservice-demo](https://github.com/leon-huang-tech/spring-microservice-demo) backend running
+- [spring-microservice-demo](https://github.com/leon-huang-tech/spring-microservice-demo) backend running locally
 
-### Run on physical device
+### Connect to local backend
 
-Use ADB reverse to connect to local backend:
+Use `adb reverse` to forward device traffic to your development machine:
+
 ```bash
 adb reverse tcp:8080 tcp:8080
 ```
 
-Then run the app on your device.
+Then build and run the app on your device or emulator.
 
-### Run on emulator
+### Build
 
-The app uses `localhost:8080` which works with ADB reverse.
-For Genymotion, use `10.0.3.2` as the base URL in `ApiClient.kt`.
+```bash
+./gradlew assembleDebug
+```
+
+## Gradle
+
+- Gradle Wrapper: **9.6.0**
+- Compile SDK: **35**
+- Target SDK: **36**
+- Min SDK: **26** (Android 8.0+)
 
 ## Demo Accounts
 
-| Email | Password |
-|-------|----------|
-| alice@example.com | password123 |
-| bob@example.com | password123 |
-| charlie@example.com | password123 |
+| Email                  | Password    |
+|------------------------|-------------|
+| alice@example.com      | password123 |
+| bob@example.com        | password123 |
+| charlie@example.com    | password123 |
 
 ## Related Projects
 
-- [spring-microservice-demo](https://github.com/leon-huang-tech/spring-microservice-demo) — Backend API with AI service
-- [golang-http-benchmark](https://github.com/leon-huang-tech/golang-http-benchmark) — HTTP benchmark tool
+| Project | Description |
+|---------|-------------|
+| [spring-microservice-demo](https://github.com/leon-huang-tech/spring-microservice-demo) | Backend microservices (Spring Boot 3, Spring Cloud, Spring AI) |
+| [golang-http-benchmark](https://github.com/leon-huang-tech/golang-http-benchmark) | HTTP load testing tool for benchmarking the backend API |

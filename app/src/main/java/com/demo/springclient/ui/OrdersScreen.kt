@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.demo.springclient.Screen
 import com.demo.springclient.api.ApiClient
 import com.demo.springclient.api.TokenManager
 import com.demo.springclient.model.Order
@@ -46,9 +47,6 @@ fun OrdersScreen(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Order List", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0x88FF5722))
-            Button(onClick = { navController.navigate("users") }) {
-                Text("View Users")
-            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))

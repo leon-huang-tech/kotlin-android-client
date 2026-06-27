@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.demo.springclient.Screen
 import com.demo.springclient.api.ApiClient
 import com.demo.springclient.api.TokenManager
 import kotlinx.coroutines.Dispatchers
@@ -52,17 +53,7 @@ fun ChatScreen(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("AI Assistant", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0x88FF5722))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { navController.navigate("users") }) {
-                    Text("Users")
-                }
-                Button(onClick = { navController.navigate("orders") }) {
-                    Text("Orders")
-                }
-            }
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         LazyColumn(
             state = listState,
