@@ -1,5 +1,6 @@
 package com.demo.springclient.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -31,9 +32,22 @@ fun OrdersScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         scope.launch {
+            val rawToken = TokenManager.getToken(context)
+            if (rawToken == null) {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(0) { inclusive = true }
+                }
+                return@launch
+            }
             try {
-                val token = "Bearer ${TokenManager.getToken(context)}"
+                val token = "Bearer $rawToken"
                 orders = ApiClient.service.getOrders(token)
+            } catch (e: Exception) {
+                Log.e("OrdersScreen", "Failed to load orders: ${e.message}")
+                TokenManager.clearToken(context) // remove the bad token
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(0)
+                }
             } finally {
                 loading = false
             }
@@ -46,7 +60,7 @@ fun OrdersScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Order List", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0x88FF5722))
+            Text("Order List", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
         }
 
         Spacer(modifier = Modifier.height(16.dp))

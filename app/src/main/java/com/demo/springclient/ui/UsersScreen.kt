@@ -1,5 +1,6 @@
 package com.demo.springclient.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -7,7 +8,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,10 +31,23 @@ fun UsersScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         scope.launch {
+            val rawToken = TokenManager.getToken(context)
+            if (rawToken == null) {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(0) { inclusive = true }
+                }
+                return@launch
+            }
             try {
                 val token = "Bearer ${TokenManager.getToken(context)}"
                 users = ApiClient.service.getUsers(token)
-            } finally {
+            } catch (e: Exception) {
+                Log.e("UsersScreen", "Failed to load users: ${e.message}")
+                TokenManager.clearToken(context) // remove the bad token
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(0)
+                }
+            }finally {
                 loading = false
             }
         }
@@ -46,7 +59,7 @@ fun UsersScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("User List", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0x88FF5722))
+            Text("User List", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
