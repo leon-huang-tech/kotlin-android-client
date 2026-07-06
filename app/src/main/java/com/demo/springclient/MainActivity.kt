@@ -3,32 +3,34 @@ package com.demo.springclient
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.SmartToy
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.demo.springclient.ui.ChatScreen
+import com.demo.springclient.ui.HomeScreen
 import com.demo.springclient.ui.LoginScreen
 import com.demo.springclient.ui.OrdersScreen
 import com.demo.springclient.ui.UsersScreen
-import com.demo.springclient.ui.ChatScreen
-import com.demo.springclient.ui.HomeScreen
-
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.SmartToy
-import androidx.compose.material3.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.demo.springclient.api.TokenManager
 import com.demo.springclient.ui.theme.SpringClientTheme
 
 class MainActivity : ComponentActivity() {
@@ -62,9 +64,7 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val startDestination = remember {
-        if (TokenManager.getToken(context) != null) Screen.Home.route else Screen.Login.route
-    }
+    val startDestination = Screen.Login.route
 
     Scaffold(
         bottomBar = {
@@ -134,4 +134,10 @@ fun AppNavigation() {
         composable(Screen.Orders.route) { OrdersScreen(navController) }
         composable(Screen.AI.route) { ChatScreen(navController) }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MainActivityScreenPreview() {
+    MainActivity()
 }
