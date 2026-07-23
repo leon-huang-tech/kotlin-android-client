@@ -108,5 +108,5 @@ Then build and run the app on your device or emulator.
 
 | Project | Description |
 |---------|-------------|
-| [spring-microservice-demo](https://github.com/leon-huang-tech/spring-microservice-demo) | Backend microservices (Spring Boot 3, Spring Cloud, Spring AI) |
+| [spring-microservice-demo](https://github.com/leon-huang-tech/spring-microservice-demo) | Backend microservices (Spring Boot 4, Spring Cloud 2025, Spring AI) |
 | [golang-http-benchmark](https://github.com/leon-huang-tech/golang-http-benchmark) | HTTP load testing tool for benchmarking the backend API |
